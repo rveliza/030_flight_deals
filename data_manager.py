@@ -17,6 +17,19 @@ class DataManager:
         data = response.json()
         self.destination_data = data['prices']
         return self.destination_data
+    
+    
+    def update_destination_codes(self, row):
+        new_data = {
+            "price": {
+                "iataCode": row["iataCode"]
+            }
+        }
+
+        response = requests.put(url=f"{os.getenv("SHEETY_PRICES_ENDPOINT")}/{row['id']}", 
+                                json=new_data, auth=self._authorization)
+        print(response.text)
+
 
 if __name__ == "__main__":
     myDataManager = DataManager()
